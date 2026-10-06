@@ -1,4 +1,4 @@
-import type { Despesa } from "./tipos";
+import type { Categoria, Despesa } from "./tipos";
 
 
 export function adicionarDespesa(
@@ -21,5 +21,12 @@ export function removerDespesa(
   id: number
 ): Despesa[] {
   return despesas.filter((despesa) => despesa.id !== id);
+}
+
+export function despesasDaCategoria(
+  despesas: Despesa[],
+  categoria: Categoria
+): Despesa[] {
+  return despesas.filter((despesa) => despesa.categoria === categoria);
 }
 

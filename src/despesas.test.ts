@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { adicionarDespesa, removerDespesa } from "./despesas";
+import { adicionarDespesa, despesasDaCategoria, removerDespesa } from "./despesas";
 import type { Despesa } from "./tipos";
 
 const despesaBase: Despesa = {
@@ -112,6 +112,37 @@ describe("removerDespesa", () => {
     const copiaOriginal = [...despesas];
 
     removerDespesa(despesas, 1);
+
+    expect(despesas).toEqual(copiaOriginal);
+  });
+});
+
+describe("despesasDaCategoria", () => {
+  it("retorna somente as despesas da categoria informada", () => {
+    const despesas = [
+      despesaBase,
+      { ...despesaBase, id: 2, descricao: "Ônibus", categoria: "transporte" as const },
+      { ...despesaBase, id: 3, descricao: "Mercado" }
+    ];
+
+    expect(despesasDaCategoria(despesas, "alimentação")).toEqual([
+      despesaBase,
+      { ...despesaBase, id: 3, descricao: "Mercado" }
+    ]);
+  });
+
+  it("retorna um array vazio se nenhuma despesa pertence à categoria", () => {
+    expect(despesasDaCategoria([despesaBase], "moradia")).toEqual([]);
+  });
+
+  it("não altera o array original", () => {
+    const despesas = [
+      despesaBase,
+      { ...despesaBase, id: 2, descricao: "Ônibus", categoria: "transporte" as const }
+    ];
+    const copiaOriginal = [...despesas];
+
+    despesasDaCategoria(despesas, "alimentação");
 
     expect(despesas).toEqual(copiaOriginal);
   });

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { adicionarDespesa } from "./despesas";
+import { adicionarDespesa, removerDespesa } from "./despesas";
 import type { Despesa } from "./tipos";
 
 const despesaBase: Despesa = {
@@ -77,5 +77,42 @@ describe("adicionarDespesa", () => {
 
     expect(despesas.length).toBe(tamanhoAntes);
     expect(despesas).toEqual([despesaBase]);
+  });
+}); 
+
+describe("removerDespesa", () => {
+  it("remove a despesa com o id informado", () => {
+    const despesas = [
+      { ...despesaBase, id: 1 },
+      { ...despesaBase, id: 2, descricao: "Cinema" }
+    ];
+
+    const resultado = removerDespesa(despesas, 1);
+
+    expect(resultado).toEqual([
+      { ...despesaBase, id: 2, descricao: "Cinema" }
+    ]);
+  });
+
+  it("retorna uma cópia igual quando o id não existe", () => {
+    const despesas = [despesaBase];
+
+    const resultado = removerDespesa(despesas, 99);
+
+    expect(resultado).toEqual(despesas);
+    expect(resultado).not.toBe(despesas);
+  });
+
+  it("não altera o array original", () => {
+    const despesas = [
+      { ...despesaBase, id: 1 },
+      { ...despesaBase, id: 2, descricao: "Cinema" }
+    ];
+
+    const copiaOriginal = [...despesas];
+
+    removerDespesa(despesas, 1);
+
+    expect(despesas).toEqual(copiaOriginal);
   });
 });

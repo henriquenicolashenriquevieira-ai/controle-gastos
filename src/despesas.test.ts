@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { adicionarDespesa, despesasDaCategoria, removerDespesa, totalGasto } from "./despesas";
+import { adicionarDespesa, despesasDaCategoria, maiorDespesa, removerDespesa, totalGasto } from "./despesas";
 import type { Despesa } from "./tipos";
 
 const despesaBase: Despesa = {
@@ -171,6 +171,35 @@ describe("totalGasto", () => {
     const copiaOriginal = [...despesas];
 
     totalGasto(despesas);
+
+    expect(despesas).toEqual(copiaOriginal);
+  });
+});
+
+describe("maiorDespesa", () => {
+  it("retorna a despesa de maior valor", () => {
+    const despesas = [
+      despesaBase,
+      { ...despesaBase, id: 2, valor: 125, descricao: "Aluguel", categoria: "moradia" as const },
+      { ...despesaBase, id: 3, valor: 45, categoria: "transporte" as const }
+    ];
+
+    expect(maiorDespesa(despesas)).toEqual(despesas[1]);
+  });
+
+  it("retorna undefined para um array vazio", () => {
+    expect(maiorDespesa([])).toBeUndefined();
+  });
+
+  it("não altera o array original", () => {
+    const despesas = [
+      despesaBase,
+      { ...despesaBase, id: 2, valor: 125, descricao: "Aluguel", categoria: "moradia" as const },
+      { ...despesaBase, id: 3, valor: 45, categoria: "transporte" as const }
+    ];
+    const copiaOriginal = [...despesas];
+
+    maiorDespesa(despesas);
 
     expect(despesas).toEqual(copiaOriginal);
   });

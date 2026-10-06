@@ -34,3 +34,11 @@ export function totalGasto(despesas: Despesa[]): number {
   return despesas.reduce((total, despesa) => total + despesa.valor, 0);
 }
 
+export function maiorDespesa(despesas: Despesa[]): Despesa | undefined {
+  return despesas.reduce<Despesa | undefined>(
+    (maior, despesa) =>
+      maior === undefined || despesa.valor > maior.valor ? despesa : maior,
+    undefined
+  );
+}
+

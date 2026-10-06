@@ -30,3 +30,7 @@ export function despesasDaCategoria(
   return despesas.filter((despesa) => despesa.categoria === categoria);
 }
 
+export function totalGasto(despesas: Despesa[]): number {
+  return despesas.reduce((total, despesa) => total + despesa.valor, 0);
+}
+

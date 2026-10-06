@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { adicionarDespesa, despesasDaCategoria, removerDespesa } from "./despesas";
+import { adicionarDespesa, despesasDaCategoria, removerDespesa, totalGasto } from "./despesas";
 import type { Despesa } from "./tipos";
 
 const despesaBase: Despesa = {
@@ -143,6 +143,34 @@ describe("despesasDaCategoria", () => {
     const copiaOriginal = [...despesas];
 
     despesasDaCategoria(despesas, "alimentação");
+
+    expect(despesas).toEqual(copiaOriginal);
+  });
+});
+
+describe("totalGasto", () => {
+  it("soma os valores de várias despesas", () => {
+    const despesas = [
+      despesaBase,
+      { ...despesaBase, id: 2, valor: 25, categoria: "lazer" as const },
+      { ...despesaBase, id: 3, valor: 15, categoria: "transporte" as const }
+    ];
+
+    expect(totalGasto(despesas)).toBe(70);
+  });
+
+  it("retorna zero para um array vazio", () => {
+    expect(totalGasto([])).toBe(0);
+  });
+
+  it("não altera o array original", () => {
+    const despesas = [
+      despesaBase,
+      { ...despesaBase, id: 2, valor: 25, categoria: "lazer" as const }
+    ];
+    const copiaOriginal = [...despesas];
+
+    totalGasto(despesas);
 
     expect(despesas).toEqual(copiaOriginal);
   });

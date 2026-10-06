@@ -1,20 +1,19 @@
-// Union type: restringe a categoria aos 4 valores permitidos, e o
-// compilador recusa qualquer outro texto.
-export type Categoria = "alimentacao" | "transporte" | "lazer" | "moradia";
+// Union type: restringe a categoria aos quatro valores permitidos.
+export type Categoria = "alimentação" | "transporte" | "lazer" | "moradia";
 
 export interface Despesa {
-  // readonly: o identificador nunca muda depois que a despesa é criada.
+  // readonly: o identificador não deve mudar após a criação da despesa.
   readonly id: number;
   descricao: string;
   valor: number;
   categoria: Categoria;
-  mes: number; // 1 a 12 (validado em adicionarDespesa)
-  observacao?: string; // Opcional porque nem toda despesa precisa de uma observação.
+  mes: number; // Mês do ano, validado entre 1 e 12 ao adicionar uma despesa.
+  observacao?: string; // Opcional porque muitas despesas não precisam de observação.
 }
 
-// Ordem das linhas da matriz do relatório.
+// A ordem também define a ordem das categorias nos relatórios.
 export const CATEGORIAS: Categoria[] = [
-  "alimentacao",
+  "alimentação",
   "transporte",
   "lazer",
   "moradia"
